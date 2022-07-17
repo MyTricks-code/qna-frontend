@@ -1,12 +1,26 @@
-import React from 'react'
+import React, {useState} from 'react'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 
 const Navbar = () => {
+  const router = useRouter("")
+
+  // Search
+  const [term, setTerm] =useState()
+  const searchFunction = (e)=>{
+    e.preventDefault()
+    if(term===""){
+      setTerm("Enter Here")
+    } else {
+      router.push(`/question/search?term=${term}`)
+    }
+  }
+
   return (
     <div>
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-2xl">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-2xl shadow-xl">
   <div className="container-fluid">
-    <Link href="/"><a className="navbar-brand" href="#">Qna Site</a></Link>
+    <Link href="/"><a className="navbar-brand text-2xl font-bold" href="#">The Secret Society of KOTA</a></Link>
     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span className="navbar-toggler-icon"></span>
     </button>
@@ -31,9 +45,15 @@ const Navbar = () => {
           <a className="nav-link disabled">Disabled</a>
         </li>
       </ul>
-      <form className="d-flex" role="search">
-        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-        <button className="btn btn-outline-success" type="submit">Search</button>
+      <form className="d-flex" onSubmit={searchFunction}>
+        <input 
+        className="form-control me-2" 
+        type="text" 
+        value={term}
+        placeholder="Search"  
+        aria-label="Search"  
+        onChange={(e)=>setTerm(e.target.value)} />
+        <button className="btn btn-outline-success" type="submit" onClick={searchFunction}>Search</button>
       </form>
     </div>
   </div>
